@@ -57,6 +57,8 @@
      <Compile Include="Assets\2021 - Old Assets\Scripts\Demon.cs" />
      <Compile Include="Assets\2021 - Old Assets\Scripts\PlayerInteraction.cs" />
      <Compile Include="Assets\2021 - Old Assets\Scripts\PlayerMovement.cs" />
+     <Compile Include="Assets\Scene1Interactions.cs" />
+     <Compile Include="Assets\Scripts\Player2Movement.cs" />
  <Reference Include="UnityEngine.Purchasing">
  <HintPath>D:/Users/darkmaster491/Game Development/Unity Projects/Duality 3.0/Library/ScriptAssemblies/UnityEngine.Purchasing.dll</HintPath>
  </Reference>

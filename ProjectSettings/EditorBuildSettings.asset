@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Scene 1 - Outside of Mansion.unity
+    guid: 2a802813d525bfa42a3815b62ba7e094
+  - enabled: 1
+    path: Assets/Scenes/Duality Title Display.unity
+    guid: f5b9f064e83e10c47bff16b9ceb68ee7
   m_configObjects: {}

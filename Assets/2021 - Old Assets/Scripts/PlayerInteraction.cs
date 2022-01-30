@@ -5,17 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    // The background music for the current scene
-    public AudioSource currentBackgroundMusic;
 
-    // Play this sound when an event occurs in the game
-    public AudioSource youFoundMeAudio;
+    // Is the character holding an item?
+    private bool isHoldingItem = false;
+    private GameObject item;
 
-    // The SpriteRenderer for the first Sprite for the Demon
-    public SpriteRenderer demonSprite1;
+    public GameObject sunStone;
+    public GameObject moonStone;
+    public GameObject demonTreeLeft;
+    public GameObject demonTreeRight;
+    public GameObject bridgeRoad;
+    public GameObject leftBridgeEdge;
 
-    // The second Sprite for the Demon to switch to when an event occurs
-    public Sprite demonSprite2;
+    public bool interaction1Complete = false;
 
     // Start is called before the first frame update
     void Start()
@@ -26,33 +28,58 @@ public class PlayerInteraction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (interaction1Complete)
+        {
+            return;
+        }
 
+        if (Input.GetKeyDown(KeyCode.Z) && isHoldingItem)
+        {
+            item.SetActive(true);
+            isHoldingItem = false;
+            if (sunStone.activeInHierarchy)
+            {
+                demonTreeLeft.SetActive(false);
+            }
+            if (moonStone.activeInHierarchy)
+            {
+                demonTreeRight.SetActive(false);
+            }
+        }
+        
+        if (!sunStone.activeInHierarchy && !moonStone.activeInHierarchy)
+        {
+            demonTreeLeft.SetActive(false);
+            demonTreeRight.SetActive(false);
+            bridgeRoad.SetActive(true);
+            leftBridgeEdge.transform.position = new Vector3(leftBridgeEdge.transform.position.x - 1.5f, leftBridgeEdge.transform.position.y, leftBridgeEdge.transform.position.z);
+            interaction1Complete = true;
+}
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // If the Player collides with the Demon...
-        if (collision.gameObject.CompareTag("Demon"))
+        // If the Player collides with the Sun Stone
+        if (collision.gameObject.CompareTag("Sun Stone") && !isHoldingItem)
         {
-            // Stop the player from moving
-            PlayerMovement.canMove = false;
+            item = collision.gameObject;
+            collision.gameObject.SetActive(false);
+            isHoldingItem = true;
+            demonTreeLeft.SetActive(true);
+        }
+        if(collision.gameObject.CompareTag("Moon Stone") && !isHoldingItem)
+        {
+            item = collision.gameObject;
+            collision.gameObject.SetActive(false);
+            isHoldingItem = true;
+            demonTreeRight.SetActive(true);
+        }
 
-            // Make the current background music stop playing
-            currentBackgroundMusic.Stop();
-
-            // Change the sprite for the Demon
-            demonSprite1.sprite = demonSprite2;            
-
-            // Play the "You Found Me" audio
-            youFoundMeAudio.Play(0);
-
-            // Load Scene 2
-            Invoke("changeScene", 5.0f);            
+        // If the Player has reached the end of Scene 1
+        if (collision.gameObject.CompareTag("Finish"))
+        {
+            SceneManager.LoadScene(1);
         }
     }
-
-    private void changeScene()
-    {
-        SceneManager.LoadScene(1);
-    }
+    
 }

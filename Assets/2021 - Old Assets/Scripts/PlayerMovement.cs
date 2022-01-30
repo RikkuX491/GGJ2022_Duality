@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    // Which player is currently the leader?
+    public static int leader = 1;
+
     // Determines whether the player can or cannot move
     public static bool canMove;
 
@@ -20,11 +23,11 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
 
     // The SpriteRenderer for the Player
-    private SpriteRenderer sr;
+    private SpriteRenderer sr;    
 
     // Start is called before the first frame update
     void Start()
-    {
+    {      
         // Set animator to the value of the Animator component for the Player Game Object
         animator = GetComponent<Animator>();
 
@@ -41,6 +44,11 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if((leader == 1 && gameObject.tag != "Player1") || (leader == 2 && gameObject.tag != "Player2"))
+        {
+            return;
+        }
+
         // Every frame - Reset the change in position to 0
         changeInPosition = Vector3.zero;
 
